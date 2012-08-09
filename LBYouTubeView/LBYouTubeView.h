@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "LBYouTubeVideoQuality.h"
 
 @protocol LBYouTubeViewDelegate;
 
@@ -15,7 +16,7 @@
 
 @property (nonatomic, strong, readonly) MPMoviePlayerController *controller;
 @property (nonatomic, unsafe_unretained) IBOutlet id <LBYouTubeViewDelegate> delegate;
-@property (nonatomic) BOOL highQuality;
+@property (nonatomic) LBYouTubeVideoQuality videoQuality;
 
 - (id)initWithYouTubeURL:(NSURL *)URL;
 

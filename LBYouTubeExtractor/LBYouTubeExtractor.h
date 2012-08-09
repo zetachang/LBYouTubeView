@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LBYouTubeVideoQuality.h"
 
 extern NSString const *     LBYouTubeExtractorErrorDomain;
 extern NSInteger const      LBYouTubeExtractorErrorCodeInvalidHTML;
@@ -21,9 +22,9 @@ extern NSInteger const      LBYouTubeExtractorErrorCodeNoJSONData;
 /**
  Extract high quality video URL
  
- Default is `NO`.
+ Default is `LBYouTubeVideoQualityLow`.
  */
-@property (nonatomic) BOOL highQuality;
+@property (nonatomic) LBYouTubeVideoQuality videoQuality;
 /**
  Extracted URL
  */

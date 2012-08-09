@@ -22,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0675636815D3A6F000D72C58 /* LBYouTubeVideoQuality.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBYouTubeVideoQuality.h; sourceTree = "<group>"; };
 		06FD15791585CF4200FDCD9E /* LBYouTubeExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBYouTubeExtractor.h; sourceTree = "<group>"; };
 		06FD157A1585CF4200FDCD9E /* LBYouTubeExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBYouTubeExtractor.m; sourceTree = "<group>"; };
 		06FD157D1585DAEC00FDCD9E /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = ../Submodules/JSONKit/JSONKit.h; sourceTree = "<group>"; };
@@ -82,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				06FD157C1585DAD800FDCD9E /* Dependencies */,
+				0675636815D3A6F000D72C58 /* LBYouTubeVideoQuality.h */,
 				06FD15781585CF1F00FDCD9E /* LBYouTubeExtractor */,
 				F22E1E631578FEF100FD9E79 /* LBYouTubeView */,
 				2B16696F15722A920030C509 /* LBYouTubeView Sample */,

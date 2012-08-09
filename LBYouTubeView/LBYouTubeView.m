@@ -146,7 +146,7 @@
     
     // Setup extractor
     self.extractor.youTubeURL = URL;
-    self.extractor.highQuality = self.highQuality;
+    self.extractor.videoQuality = self.videoQuality;
     
     // Start extractor
     [self.extractor start];

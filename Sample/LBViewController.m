@@ -20,7 +20,7 @@
     [super viewDidLoad];
 	
     self.youTubeView.delegate = self;
-    self.youTubeView.highQuality = YES;
+    self.youTubeView.videoQuality = LBYouTubeVideoQualityHigh;
     //[self.youTubeView loadYouTubeURL:[NSURL URLWithString:@"http://www.youtube.com/watch?v=1fTIhC1WSew&list=FLEYfH4kbq85W_CiOTuSjf8w&feature=mh_lolz"]];
     [self.youTubeView loadYouTubeVideoWithID:@"1fTIhC1WSew"];
     [self.youTubeView play];

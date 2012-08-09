@@ -23,7 +23,7 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
 @interface LBYouTubeExtractorOperation_ : NSOperation
 // Input
 @property (nonatomic, copy) NSData *data;
-@property (nonatomic) BOOL highQuality;
+@property (nonatomic) LBYouTubeVideoQuality videoQuality;
 
 // Output
 @property (nonatomic, strong) NSError *error;
@@ -169,29 +169,37 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
     if ([self isCancelled]) return nil;
     
     // Ok: JSON parsed
-    NSDictionary *video = [[jsonDict objectForKey:@"content"] objectForKey:@"video"];
-    NSString *streamURL = nil;
-    static NSString const * streamURLKey = @"stream_url";
+    NSArray *videos = [[[jsonDict objectForKey:@"content"] objectForKey:@"video"] objectForKey:@"fmt_stream_map"];
     
     // Get stream URL
-    if (self.highQuality) {
-        NSString *key = [[NSString alloc] initWithFormat:@"hq_%@", streamURLKey];
-        streamURL = [video objectForKey:key];
+    NSString *streamURLString = nil;
+    if ([videos count]) {
+        static NSString const * kStreamURLKey = @"url";
         
-        if (!streamURL) {
-            streamURL = [video objectForKey:streamURLKey];
+        switch (self.videoQuality) {
+            case LBYouTubeVideoQualityHigh:
+                streamURLString = [[videos objectAtIndex:0] objectForKey:kStreamURLKey];
+                break;
+                
+            case LBYouTubeVideoQualityMedium: {
+                NSUInteger index = MAX(0, videos.count-2);
+                streamURLString = [[videos objectAtIndex:index] objectForKey:kStreamURLKey];
+                break;
+            }
+                
+            default: // Low quality
+                streamURLString = [[videos lastObject] objectForKey:kStreamURLKey];
+                break;
         }
-    }
-    else {
-        streamURL = [video objectForKey:streamURLKey];
+
     }
     
     // Stop if cancellation is requested
     if ([self isCancelled]) return nil;
     
-    // Create NSURL object
-    if (streamURL) {
-        return [[NSURL alloc] initWithString:streamURL];
+    // Convert to NSURL
+    if ([streamURLString length]) {
+        return [NSURL URLWithString:streamURLString];
     }
     
     // No stream URL: return an error
@@ -312,14 +320,6 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
 @synthesize buffer_ = buffer__;
 @synthesize extractionQueue_ = extractionQueue__;
 
-- (id)init {
-    self = [super init];
-    if (self) {
-        _highQuality = NO;
-    }
-    return self;
-}
-
 - (void)dealloc {
     [self cancel];
 }
@@ -411,7 +411,7 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
     // Create extraction operation
     LBYouTubeExtractorOperation_ *op = [[LBYouTubeExtractorOperation_ alloc] init];
     op.data = self.buffer_;
-    op.highQuality = self.highQuality;
+    op.videoQuality = self.videoQuality;
     
     // Attach completion block
     LBYouTubeExtractorOperation_ *strongOp = op;
