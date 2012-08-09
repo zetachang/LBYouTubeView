@@ -35,10 +35,6 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
 @end
 
 @implementation LBYouTubeExtractorOperation_
-@synthesize data = data_;
-@synthesize error = error_;
-@synthesize highQuality = highQuality_;
-@synthesize extractedURL = extractedURL_;
 
 - (void)main {
     // Check for cancellation
@@ -55,7 +51,7 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
     
     if ([html length] <= 0) {
         // HTML can not be opened
-        NSDictionary *errorUserInfo = [[NSDictionary alloc] initWithObjectsAndKeys:@"Couldn't download the HTML source code. URL might be invalid.", NSLocalizedDescriptionKey, nil];
+        NSDictionary *errorUserInfo = @{NSLocalizedDescriptionKey: @"Couldn't download the HTML source code. URL might be invalid."};
         self.error = [[NSError alloc] initWithDomain:(NSString *)LBYouTubeExtractorErrorDomain code:LBYouTubeExtractorErrorCodeInvalidHTML userInfo:errorUserInfo];
         
         return;
@@ -94,7 +90,7 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
     
     if (JSONStart == nil) {
         // No JSON: return an error
-        NSDictionary *errorUserInfo = [[NSDictionary alloc] initWithObjectsAndKeys:@"The JSON data could not be found.", NSLocalizedDescriptionKey, nil];
+        NSDictionary *errorUserInfo = @{NSLocalizedDescriptionKey: @"The JSON data could not be found."};
         NSError *theError = [[NSError alloc] initWithDomain:(NSString *)LBYouTubeExtractorErrorDomain code:LBYouTubeExtractorErrorCodeNoJSONData userInfo:errorUserInfo];
         
         if (error != NULL) {
@@ -120,7 +116,7 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
     
     if (JSON == nil) {
         // No JSON: return an error
-        NSDictionary *errorUserInfo = [[NSDictionary alloc] initWithObjectsAndKeys:@"The JSON data could not be found.", NSLocalizedDescriptionKey, nil];
+        NSDictionary *errorUserInfo = @{NSLocalizedDescriptionKey: @"The JSON data could not be found."};
         NSError *theError = [[NSError alloc] initWithDomain:(NSString *)LBYouTubeExtractorErrorDomain code:LBYouTubeExtractorErrorCodeNoJSONData userInfo:errorUserInfo];
         
         if (error != NULL) {
@@ -199,7 +195,7 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
     }
     
     // No stream URL: return an error
-    NSDictionary *errorUserInfo = [[NSDictionary alloc] initWithObjectsAndKeys:@"Couldn't find the stream URL.", NSLocalizedDescriptionKey, nil];
+    NSDictionary *errorUserInfo = @{NSLocalizedDescriptionKey: @"Couldn't find the stream URL."};
     NSError *theError = [[NSError alloc] initWithDomain:(NSString *)LBYouTubeExtractorErrorDomain code:LBYouTubeExtractorErrorCodeNoStreamURL userInfo:errorUserInfo];
     
     if (error != NULL) {
@@ -311,11 +307,6 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
 @end
 
 @implementation LBYouTubeExtractor
-@synthesize youTubeURL = youTubeURL_;
-@synthesize highQuality = highQuality_;
-@synthesize extractedURL = extractedURL_;
-@synthesize completionHandler = completionHandler_;
-
 @synthesize connectionStarted_ = connectionStarted__;
 @synthesize connection_ = connection__;
 @synthesize buffer_ = buffer__;
@@ -324,7 +315,7 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
 - (id)init {
     self = [super init];
     if (self) {
-        highQuality_ = NO;
+        _highQuality = NO;
     }
     return self;
 }

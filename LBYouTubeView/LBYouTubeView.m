@@ -29,8 +29,6 @@
 
 
 @implementation LBYouTubeView
-@synthesize extractor = extractor_;
-@synthesize controller, shouldAutomaticallyStartPlaying, highQuality, delegate;
 
 #pragma mark Initialization
 
