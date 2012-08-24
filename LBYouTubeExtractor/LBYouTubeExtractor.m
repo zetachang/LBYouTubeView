@@ -311,8 +311,6 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
 @property (nonatomic, strong) NSMutableData *buffer_;
 @property (nonatomic, strong) NSOperationQueue *extractionQueue_;
 @property (nonatomic, strong) LBYouTubeExtractor *selfReference_;
-@property (nonatomic, strong) void (^successBlock_) (NSURL *URL);
-@property (nonatomic, strong) void (^failureBlock_) (NSError *error);
 - (void)tearDownConnection_;
 @end
 
@@ -322,22 +320,19 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
 @synthesize buffer_ = buffer__;
 @synthesize extractionQueue_ = extractionQueue__;
 @synthesize selfReference_ = selfReference__;
-@synthesize successBlock_ = successBlock__;
-@synthesize failureBlock_ = failureBlock__;
 
 - (void)dealloc {
     [self cancel];
 }
 
 #pragma mark - Extraction
-+ (LBYouTubeExtractor *)extractorForYouTubeURL:(NSURL *)youTubeURL success:(void (^)(NSURL *))success failure:(void (^)(NSError *))failure {
++ (void)extractYouTubeURL:(NSURL *)youTubeURL videoQuality:(LBYouTubeVideoQuality)videoQuality completion:(void (^)(NSURL *, NSError *))completionBlock {
     LBYouTubeExtractor* extractor = [[LBYouTubeExtractor alloc] init];
     extractor.youTubeURL = youTubeURL;
+    extractor.videoQuality = videoQuality;
+    extractor.completionHandler = completionBlock;
     extractor.selfReference_ = extractor;
-    extractor.successBlock_ = success;
-    extractor.failureBlock_ = failure;
     [extractor start];
-    return extractor;
 }
 
 - (BOOL)isRunning {
@@ -369,7 +364,6 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
     if (self.completionHandler) {
         self.completionHandler(extractedURL, nil);
     }
-    self.successBlock_(extractedURL);
     self.selfReference_ = nil;
 }
 
@@ -377,7 +371,6 @@ NSInteger const LBYouTubeExtractorErrorCodeNoJSONData   =    3;
     if (self.completionHandler) {
         self.completionHandler(nil, error);
     }
-    self.failureBlock_(error);
     self.selfReference_ = nil;
 }
 
