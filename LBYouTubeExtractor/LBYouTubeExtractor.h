@@ -39,6 +39,10 @@ extern NSInteger const      LBYouTubeExtractorErrorCodeNoJSONData;
 
 
 @interface LBYouTubeExtractor (Extraction)
+/*
+ Just extract the url with success and failure callback
+ */
++ (LBYouTubeExtractor *)extractorForYouTubeURL:(NSURL *)youTubeURL success:(void(^)(NSURL *extractedURL))success failure:(void(^)(NSError *error))failure;
 /**
  Check extraction status.
  
